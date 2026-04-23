@@ -1,0 +1,135 @@
+{
+  "name": "worktree-handler",
+  "displayName": "Worktree Handler",
+  "description": "Manage multi-worktree Git repositories with .bare/ structure",
+  "version": "0.1.0",
+  "publisher": "JoRouquette",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JoRouquette/worktree-handler.git"
+  },
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "SCM Providers",
+    "Other"
+  ],
+  "keywords": [
+    "git",
+    "worktree",
+    "multi-branch",
+    "repository"
+  ],
+  "activationEvents": [
+    "onStartupFinished",
+    "onCommand:worktreeHandler.checkout",
+    "onView:worktreeHandler"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "worktreeHandler.checkout",
+        "title": "Worktree: Checkout"
+      },
+      {
+        "command": "worktreeHandler.refreshList",
+        "title": "Worktree: Refresh List"
+      },
+      {
+        "command": "worktreeHandler.showConfiguration",
+        "title": "Worktree: Show Configuration"
+      }
+    ],
+    "configuration": {
+      "title": "Worktree Handler",
+      "properties": {
+        "worktreeHandler.enable": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable the Worktree Handler extension."
+        },
+        "worktreeHandler.otherWorktreesVisibility": {
+          "type": "string",
+          "enum": [
+            "hidden",
+            "dimmed"
+          ],
+          "enumDescriptions": [
+            "Hide non-active worktrees completely from the explorer.",
+            "Show non-active worktrees as grayed out and read-only."
+          ],
+          "default": "hidden",
+          "description": "How non-active worktrees are displayed in the explorer."
+        },
+        "worktreeHandler.autoDetectWorktrees": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically detect worktrees on startup and VS Code focus changes."
+        },
+        "worktreeHandler.pollInterval": {
+          "type": "number",
+          "default": 5000,
+          "minimum": 1000,
+          "description": "Interval in milliseconds to poll for worktree changes."
+        },
+        "worktreeHandler.rememberLastWorktree": {
+          "type": "boolean",
+          "default": true,
+          "description": "Remember and restore the last active worktree on startup."
+        },
+        "worktreeHandler.generateTerminalScripts": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically generate .worktree-setup.sh and .worktree-setup.ps1 on worktree switch."
+        }
+      }
+    },
+    "views": {
+      "scm": [
+        {
+          "id": "worktreeHandler",
+          "name": "Worktrees",
+          "when": "worktreeHandler.active"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run package",
+    "compile": "webpack",
+    "watch": "webpack --watch",
+    "package": "webpack --mode production --devtool hidden-source-map",
+    "build": "npm run compile",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "npm run compile-tests && npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "vscode-test",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "vsce:package": "vsce package --no-dependencies"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.85.0",
+    "@types/mocha": "^10.0.6",
+    "@types/node": "20.x",
+    "@typescript-eslint/eslint-plugin": "^7.7.0",
+    "@typescript-eslint/parser": "^7.7.0",
+    "eslint": "^8.57.0",
+    "prettier": "^3.2.5",
+    "typescript": "^5.4.5",
+    "ts-loader": "^9.5.1",
+    "webpack": "^5.91.0",
+    "webpack-cli": "^5.1.4",
+    "esbuild": "^0.20.2",
+    "@vscode/test-cli": "^0.0.9",
+    "@vscode/test-electron": "^2.3.9",
+    "mocha": "^10.4.0",
+    "glob": "^10.3.12",
+    "@vscode/vsce": "^3.3.0"
+  },
+  "dependencies": {
+    "simple-git": "^3.22.0"
+  }
+}
