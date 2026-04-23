@@ -1,0 +1,21 @@
+{
+  "initialVersion": "0.1.0",
+  "bumpRules": {
+    "major": {
+      "patterns": ["!:", "BREAKING CHANGE:"],
+      "description": "Breaking changes — incompatible API or behavior changes"
+    },
+    "minor": {
+      "types": ["feat"],
+      "description": "New backward-compatible features"
+    },
+    "patch": {
+      "types": ["fix", "build", "ci", "refactor", "perf", "style", "test"],
+      "description": "Bug fixes and internal improvements"
+    },
+    "ignore": {
+      "types": ["docs", "chore"],
+      "description": "Documentation and maintenance — no release triggered"
+    }
+  }
+}
